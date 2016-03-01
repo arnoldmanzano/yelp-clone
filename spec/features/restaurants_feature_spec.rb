@@ -49,4 +49,19 @@ feature 'restaurants' do
     end
 
   end
+
+  context 'editing restaurants' do
+    let!(:java_u){Restaurant.create(name:'Java-U')}
+
+    scenario 'let the user edit a restaurant' do
+      visit '/restaurants'
+      click_link 'Java-U'
+      click_link 'Edit Java-U'
+      fill_in 'Name', with: 'Java-Me'
+      click_button 'Update Restaurant'
+      expect(page).to have_content 'Java-Me'
+      expect(page).not_to have_content 'Java-U'
+      expect(current_path).to eq '/restaurants'
+    end
+  end
 end
