@@ -38,4 +38,15 @@ feature 'restaurants' do
 
   end
 
+  context 'viewing restaurants' do
+    let!(:java_u){Restaurant.create(name:'Java-U')}
+
+    scenario '' do
+      visit '/restaurants'
+      click_link 'Java-U'
+      expect(page).to have_content 'Java-U'
+      expect(current_path).to eq "/restaurants/#{java_u.id}"
+    end
+
+  end
 end
