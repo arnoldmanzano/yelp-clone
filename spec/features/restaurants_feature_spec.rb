@@ -3,13 +3,11 @@ require 'rails_helper'
 feature 'restaurants' do
 
   context 'no restaurants added' do
-
     scenario 'should promt to add restaurant' do
       visit '/restaurants'
       expect(page).to have_content 'No restaurants'
       expect(page).to have_link 'Add restaurant'
     end
-
   end
 
   context 'restaurant have been added' do
@@ -22,7 +20,6 @@ feature 'restaurants' do
       expect(page).to have_content 'Java-U'
       expect(page).not_to have_content 'No restaurants'
     end
-
   end
 
   context 'create restaurant' do
@@ -35,7 +32,6 @@ feature 'restaurants' do
       expect(page).to have_content 'Java-U'
       expect(current_path).to eq '/restaurants'
     end
-
   end
 
   context 'viewing restaurants' do
@@ -47,7 +43,6 @@ feature 'restaurants' do
       expect(page).to have_content 'Java-U'
       expect(current_path).to eq "/restaurants/#{java_u.id}"
     end
-
   end
 
   context 'editing restaurants' do
@@ -62,6 +57,19 @@ feature 'restaurants' do
       expect(page).to have_content 'Java-Me'
       expect(page).not_to have_content 'Java-U'
       expect(current_path).to eq '/restaurants'
+    end
+  end
+
+  context 'deleting restaurants' do
+    let!(:java_u){Restaurant.create(name:'Java-U')}
+
+    scenario 'let the user delete a restaurant' do
+      visit '/restaurants'
+      click_link 'Java-U'
+      click_link 'Delete Java-U'
+      expect(page).not_to have_content 'Java-U'
+      expect(current_path).to eq '/restaurants'
+      expect(page).to have_content 'Restaurant deleted successfully'
     end
   end
 end
