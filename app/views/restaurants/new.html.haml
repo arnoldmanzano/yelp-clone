@@ -2,5 +2,14 @@
   = f.label :name
   = f.text_field :name
   = f.label :description
-  = f.text_field :description
+  = f.text_area :description
   = f.submit
+
+- if @restaurant.errors.any?
+  %section#errors
+    %p
+      = pluralize @restaurant.errors.count, 'error'
+      prohibited restaurant creation:
+      %ul
+        - @restaurant.errors.full_messages.each do |msg|
+          %li= msg

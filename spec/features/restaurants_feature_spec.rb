@@ -32,6 +32,15 @@ feature 'restaurants' do
       expect(page).to have_content 'Java-U'
       expect(current_path).to eq '/restaurants'
     end
+
+    scenario 'name too short' do
+      visit '/restaurants'
+      click_link 'Add restaurant'
+      fill_in 'Name', with: 'ju'
+      click_button 'Create Restaurant'
+      expect(page).not_to have_css 'h2', text: 'ju'
+      expect(page).to have_content 'error'
+    end
   end
 
   context 'viewing restaurants' do
