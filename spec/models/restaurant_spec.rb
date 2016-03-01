@@ -8,4 +8,10 @@ describe Restaurant, type: :model do
     expect(restaurant).not_to be_valid
     expect(restaurant).to have(1).error_on(:name)
   end
+
+  it 'is not valid if not unique' do
+    Restaurant.create(name: 'Java-U')
+    restaurant = Restaurant.new(name: 'Java-U')
+    expect(restaurant).to have(1).error_on(:name)
+  end
 end
