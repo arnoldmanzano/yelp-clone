@@ -12,4 +12,17 @@ feature 'restaurants' do
 
   end
 
+  context 'restaurant have been added' do
+    before do
+      Restaurant.create(name: 'Java-U')
+    end
+
+    scenario 'display restaurants' do
+      visit '/restaurants'
+      expect(page).to have_content 'Java-U'
+      expect(page).not_to have_content 'No restaurants'
+    end
+
+  end
+
 end
