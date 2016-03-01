@@ -25,4 +25,17 @@ feature 'restaurants' do
 
   end
 
+  context 'create restaurant' do
+
+    scenario 'fill out a form, then display the restaurant' do
+      visit '/restaurants'
+      click_link 'Add restaurant'
+      fill_in 'Name', with: 'Java-U'
+      click_button 'Create restaurant'
+      expect(page).to have_content 'Java-U'
+      expect(current_path).to eq '/restaurants'
+    end
+
+  end
+
 end
