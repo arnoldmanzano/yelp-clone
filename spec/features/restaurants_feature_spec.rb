@@ -31,7 +31,7 @@ feature 'restaurants' do
       visit '/restaurants'
       click_link 'Add restaurant'
       fill_in 'Name', with: 'Java-U'
-      click_button 'Create restaurant'
+      click_button 'Create Restaurant'
       expect(page).to have_content 'Java-U'
       expect(current_path).to eq '/restaurants'
     end
