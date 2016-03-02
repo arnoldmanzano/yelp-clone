@@ -43,6 +43,30 @@ feature 'User can sign in and out' do
     end
   end
 
+  context 'user leaving review' do
+    before do
+      visit '/'
+      click_link('Sign up')
+      fill_in('Email', with: 'my@email.com')
+      fill_in('Password', with: 'mypassword')
+      fill_in('Password confirmation', with: 'mypassword')
+      click_button('Sign up')
+      visit '/restaurants'
+      click_link 'Add a restaurant'
+      fill_in 'Name', with: 'KFC'
+      click_button 'Create Restaurant'
+    end
+
+    scenario 'user can only leave one review per restaurant' do
+      click_link 'Review KFC'
+      fill_in "Thoughts", with: "so so"
+      select '3', from: 'Rating'
+      click_button 'Leave Review'
+      expect(current_path).to eq '/restaurants'
+      expect(page).not_to have_link 'Review KFC'
+    end
+  end
+
   context 'user creates and another user signs in' do
     before do
       visit '/'
@@ -65,13 +89,11 @@ feature 'User can sign in and out' do
     end
 
     scenario 'user can only edit/delete restaurants they created' do
-      click_link 'Delete KFC'
-      expect(page).to have_content 'KFC'
-      expect(page).not_to have_content 'Restaurant deleted successfully'
+      expect(page).not_to have_link 'Delete KFC'
+      expect(page).not_to have_link 'Edit KFC'
     end
 
-    # Users can only leave one review per restaurant
-    # Users can delete only their own reviews
+    # TODO Users can delete only their own reviews
 
   end
 end
