@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 feature 'restaurants' do
+  before do
+    visit '/'
+    click_link('Sign up')
+    fill_in('Email', with: 'my@email.com')
+    fill_in('Password', with: 'mypassword')
+    fill_in('Password confirmation', with: 'mypassword')
+    click_button('Sign up')
+  end
+
   context 'no restaurants have been added' do
     scenario 'should display a prompt to add a restaurant' do
       visit '/restaurants'
@@ -33,7 +42,7 @@ feature 'restaurants' do
   context 'creating restaurants' do
     let!(:kfc) {Restaurant.create(name:'KFC')}
 
-    scenario '' do
+    scenario 'viewing specific restaurant' do
       visit '/restaurants'
       click_link 'KFC'
       expect(page).to have_content 'KFC'
@@ -67,7 +76,11 @@ feature 'restaurants' do
   end
 
   context 'deleting restaurants' do
-    before { Restaurant.create name: 'KFC'}
+    before do
+      click_link 'Add a restaurant'
+      fill_in 'Name', with: 'KFC'
+      click_button 'Create Restaurant'
+    end
 
     scenario 'removes a restaurant when a user clicks a delete link' do
       visit '/restaurants'

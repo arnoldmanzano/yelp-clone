@@ -23,4 +23,12 @@ class User < ActiveRecord::Base
   #     end
   #   end
   # end
+
+  has_many :restaurants
+  has_many :reviews, dependent: :destroy # TODO
+  has_many :reviewed_restaurants, through: :reviews, source: :restaurant
+
+  def has_reviewed?(restaurant)
+    reviewed_restaurants.include? restaurant
+  end
 end
